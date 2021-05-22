@@ -1,0 +1,51 @@
+NOTES.
+
+empece a agregar a routes el resto del CRUD para skill-type
+
+cuando quiero borrar un documento paso su id por parametro en la url.
+
+ejemplo: app.delete("/api/skill-type/:id", skillTypeController.delete);
+         http://192.168.10.230:5000/api/skill-type/60a9172e8f08a60baada97b6
+
+pero  si quiero buscar un documento que cumpla determinadas condiciones....
+podria ser asi:
+
+app.post("/api/skill-type/search", skillTypeController.search)....en body el POST recibís un objeto
+
+con el objeto que recibo en el body configuro la busqueda personalizada
+
+
+El presente archivo son notas sobre el desarrollo del proyecto
+
+[21:41, 20/5/2021] ORT Diego Fliess: Si es un error porque respondes con un code 201 ?
+[21:42, 20/5/2021] German Berdichevsky: ni idea
+[21:42, 20/5/2021] German Berdichevsky: copy, paste de otros mensajes
+[21:42, 20/5/2021] ORT Diego Fliess: Ja
+[21:43, 20/5/2021] German Berdichevsky: Ahi es donde...la falta de teoria se nota
+[21:43, 20/5/2021] German Berdichevsky: 501 para los errores?
+[21:43, 20/5/2021] ORT Diego Fliess: Y respondería con un json  { error:true, message:”xxxx”}
+[21:44, 20/5/2021] ORT Diego Fliess: https://es.wikipedia.org/wiki/Anexo:C%C3%B3digos_de_estado_HTTP
+
+Mejorar los mensajes de error que devuelve la API
+
+Cambiar el check exist por unique
+
+Hacer el CRUD completo de skillType para tener un modelo con Read Update Delete y no solo con Create
+
+Revisar si tiene sentido tener una coleccion table en lugar de una attack table y otra critical table
+
+
+Para Resolver un ataque (de esto estamos lejos)
+
+
+Objeto:
+    - Name
+    - Descripcion
+    - Hechizo de uso diario
+    - Bonifiacion a la TR (Esencia, Canalizacion, Fuego, Electricidad, Veneno, Enfermedad, etc)
+    - Peso 
+    - Tamaño
+    - Precio 
+
+
+%Porcentaje de habilidad del turno para atacar y %Porcentaje de la habilidad esquivar para esquivar
