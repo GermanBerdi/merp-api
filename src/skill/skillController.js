@@ -29,5 +29,17 @@ module.exports =
     {
       reply.code(500).send(e);
     }
+  },
+  // get the list of skill
+  fetch: async (request, reply) =>
+  {
+    try {
+      const skills = await skillModel.find({}).populate("skillTypeId","-_id name");
+      reply.code(200).send(skills);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
   }
 }

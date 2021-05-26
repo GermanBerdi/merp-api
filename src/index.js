@@ -26,7 +26,6 @@ catch (e)
 }
 
 // function initialize
-
 routes(app);
 
 // set application listening on port 5000 of localhost

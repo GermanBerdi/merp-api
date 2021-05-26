@@ -2,10 +2,10 @@ const skillTypeModel = require("./skillTypeModel");
 const ObjectId       = require("mongoose").Types.ObjectId;
 const utils          = require("../utils");
 
-module.exports = 
+const skillTypeController = 
 {
   // create a skillType
-  create: async (request, reply) => 
+  create : async function (request, reply)
   {
     try 
     {
@@ -26,9 +26,10 @@ module.exports =
     }
   },
   // get the list of skillTypes
-  fetch: async (request, reply) =>
+  fetch: async function (request, reply)
   {
-    try {
+    try 
+    {
       const skillTypes = await skillTypeModel.find({});
       reply.code(200).send(skillTypes);
     } 
@@ -38,22 +39,31 @@ module.exports =
     }
   },
   // delete a skillType
-  delete: async (request, reply) =>
+  delete: async function (request, reply)
   {
     try 
     {
       const skillTypeId = request.params.id;
-      //check if request.params.id if a valid Id
-      const validId = new ObjectId(skillTypeId);
-      if (!(skillTypeId == validId))
+      //check if request.params.id has a valid length for an Id
+      if ((skillTypeId.length != 12) && (skillTypeId.length != 24))
       {
+        reply.code(201).send("El Id " + skillTypeId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(skillTypeId);
+      if (skillTypeId != validId)
+      {
+        
         reply.code(201).send("El Id " + skillTypeId + " no es válido");
+        return;
       }
       const skillTypeToDelete = await utils.checkId(skillTypeId,skillTypeModel);
       //check if skillTypeId not exist
       if (!(skillTypeToDelete))
       {
-        reply.code(201).send("No existe ningun skillType con Id " + skillTypeId);  
+        reply.code(201).send("No existe ningun skillType con Id " + skillTypeId);
+        return;
       }
       // all checks passed ok
       await skillTypeModel.findByIdAndDelete(skillTypeId);
@@ -65,3 +75,5 @@ module.exports =
     }
   }
 }
+
+module.exports = skillTypeController;
