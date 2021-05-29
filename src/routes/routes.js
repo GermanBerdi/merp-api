@@ -1,6 +1,6 @@
 const skillTypeRoutes = require("../skillType/skillTypeRoutes");
+const skillRoutes     = require("../skill/skillRoutes");
 
-//const skillTypeController = require("../skillType/skillTypeController");
 // const skillController            = require("../skill/skillController");
 // const enduranceController        = require("../endurance/enduranceController");
 // const armorTypeController        = require("../armorType/armorTypeController");
@@ -14,8 +14,8 @@ const skillTypeRoutes = require("../skillType/skillTypeRoutes");
 
 function routes (app)
 {
-  //app.get("/api/skill-type", skillTypeController.fetch);
   skillTypeRoutes(app);
+  skillRoutes(app);
 }
 
 module.exports = routes; 

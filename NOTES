@@ -1,5 +1,7 @@
 NOTES.
 
+Hay que seguir por el skillRoutes y el skillController para implementar el populate
+
 empece a agregar a routes el resto del CRUD para skill-type
 
 cuando quiero borrar un documento paso su id por parametro en la url.
