@@ -2,12 +2,13 @@ const skillTypeModel = require("../skillType/skillTypeModel");
 const skillModel     = require("./skillModel");
 const utils          = require("../utils");
 
-module.exports = 
+const skillController =
 {
-  //# create a skill
+  // create a skill
   create: async (request, reply) =>
- {
-    try {
+  {
+    try
+    {
       const skill = request.body;
       // check if the skill alredy exist
       if (await utils.checkExist("name", skill.name, skillModel))
@@ -33,7 +34,8 @@ module.exports =
   // get the list of skill
   fetch: async (request, reply) =>
   {
-    try {
+    try
+    {
       const skills = await skillModel.find({}).populate("skillTypeId","-_id name");
       reply.code(200).send(skills);
     } 
@@ -43,3 +45,5 @@ module.exports =
     }
   }
 }
+
+module.exports = skillController;
