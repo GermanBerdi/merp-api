@@ -1,6 +1,6 @@
 NOTES.
 
-Hay que seguir por el skillRoutes y el skillController para implementar el populate
+1- Hay que seguir por el skillRoutes y el skillController para implementar el populate
 
 empece a agregar a routes el resto del CRUD para skill-type
 
