@@ -9,7 +9,7 @@ function skillRoutes (app)
     app.get("/api/skill", skillController.fetch);
 
     // delete a skill
-    //app.delete("/api/skill/:id", skillController.delete);
+    app.delete("/api/skill/:id", skillController.delete);
 }
 
 module.exports = skillRoutes;

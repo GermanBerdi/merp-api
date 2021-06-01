@@ -1,7 +1,6 @@
 const skillTypeRoutes = require("../skillType/skillTypeRoutes");
 const skillRoutes     = require("../skill/skillRoutes");
 
-// const skillController            = require("../skill/skillController");
 // const enduranceController        = require("../endurance/enduranceController");
 // const armorTypeController        = require("../armorType/armorTypeController");
 // const armorController            = require("../armor/armorController");

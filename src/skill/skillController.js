@@ -1,5 +1,7 @@
 const skillTypeModel = require("../skillType/skillTypeModel");
 const skillModel     = require("./skillModel");
+
+const ObjectId       = require("mongoose").Types.ObjectId;
 const utils          = require("../utils");
 
 const skillController =
@@ -17,9 +19,9 @@ const skillController =
         return;
       }
       // check if the skillTypeId not exist
-      if (!(await utils.checkId(skill.skillTypeId,skillTypeModel)))
+      if (!(await utils.checkId(skill.skillType,skillTypeModel)))
       {
-        reply.code(201).send("No existe ningun skillType con Id " + skill.skillTypeId);  
+        reply.code(201).send("No existe ningun skillType con Id " + skill.skillType);  
         return;
       }
       // all checks passed ok
@@ -36,8 +38,44 @@ const skillController =
   {
     try
     {
-      const skills = await skillModel.find({}).populate("skillTypeId","-_id name");
+      const skills = await skillModel.find({}).populate("skillType","-_id name");
       reply.code(200).send(skills);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
+  },
+  // delete a skill
+  delete: async function (request, reply)
+  {
+    try 
+    {
+      const skillId = request.params.id;
+      //check if request.params.id has a valid length for an Id
+      if ((skillId.length != 12) && (skillId.length != 24))
+      {
+        reply.code(201).send("El Id " + skillId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(skillId);
+      if (skillId != validId)
+      {
+        
+        reply.code(201).send("El Id " + skillTId + " no es válido");
+        return;
+      }
+      const skillToDelete = await utils.checkId(skillId,skillModel);
+      //check if skillTypeId not exist
+      if (!(skillToDelete))
+      {
+        reply.code(201).send("No existe ningun skill con Id " + skillId);
+        return;
+      }
+      // all checks passed ok
+      await skillModel.findByIdAndDelete(skillId);
+      reply.code(200).send(skillToDelete.name);
     } 
     catch (e) 
     {
