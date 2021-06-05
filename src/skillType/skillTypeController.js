@@ -55,7 +55,6 @@ const skillTypeController =
       const validId = new ObjectId(skillTypeId);
       if (skillTypeId != validId)
       {
-        
         reply.code(201).send("El Id " + skillTypeId + " no es válido");
         return;
       }

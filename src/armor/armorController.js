@@ -1,11 +1,13 @@
 const armorTypeModel = require("../armorType/armorTypeModel");
 const armorModel     = require("./armorModel");
+
+const ObjectId       = require("mongoose").Types.ObjectId;
 const utils          = require("../utils");
 
-module.exports = 
+const armorController =
 {
-  //# create a armor
-  create: async (request, reply) => 
+  // create an armor
+  create: async function (request, reply)
   {
     try 
     {
@@ -16,10 +18,10 @@ module.exports =
         reply.code(201).send("Ya existe un armor con name " + armor.name);
         return;
       }   
-      // check if the armorTypeId not exist
-      if (!(await utils.checkId(armor.armorTypeId, armorTypeModel)))
+      // check if the armorType not exist
+      if (!(await utils.checkId(armor.armorType, armorTypeModel)))
       {
-        reply.code(201).send("No existe ningun armorType con Id " + armor.armorTypeId);        
+        reply.code(201).send("No existe ningun armorType con Id " + armor.armorType);
         return;
       }
       // all checks passed ok
@@ -30,53 +32,22 @@ module.exports =
     {
       reply.code(500).send(e);
     }
-  }
-/*
-  //#get the list of notes
-  fetch: async (request, reply) => {
-    try {
-      const armours = await armour_model.find({});
-      reply.code(200).send(armours);
-    } catch (e) {
+  },
+  // get the list of armors
+  fetch: async function (request, reply)
+  {
+    try
+    {
+      const armors = await armorModel.find({})
+                       .populate("armorType","-_id name");
+
+      reply.code(200).send(armors);
+    } 
+    catch (e) 
+    {
       reply.code(500).send(e);
     }
-  }*/
+  }
 }
 
-/*
-  //#get a single note
-  get: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const note = await Note.findById(noteId);
-      reply.code(200).send(note);
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  //#update a note
-  update: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const updates = request.body;
-      await Note.findByIdAndUpdate(noteId, updates);
-      const noteToUpdate = await Note.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate });
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  //#delete a note
-  delete: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const noteToDelete = await Note.findById(noteId);
-      await Note.findByIdAndDelete(noteId);
-      reply.code(200).send({ data: noteToDelete });
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-*/
+module.exports = armorController; 

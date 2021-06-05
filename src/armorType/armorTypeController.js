@@ -2,12 +2,14 @@ const enduranceModel = require("../endurance/enduranceModel");
 const skillModel     = require("../skill/skillModel");
 const skillTypeModel = require("../skillType/skillTypeModel");
 const armorTypeModel = require("./armorTypeModel");
+
+const ObjectId       = require("mongoose").Types.ObjectId;
 const utils          = require("../utils");
 
-module.exports = 
+const armorTypeController =
 {
-  //# create an armorType
-  create: async (request, reply) =>
+  // create an armorType
+  create: async function (request, reply)
   {
     try
     {
@@ -18,24 +20,24 @@ module.exports =
         reply.code(201).send("Ya existe un armorType con name " + armorType.name);
         return;
       }
-      // check if the enduranceId not exist
-      if (!(await utils.checkId(armorType.enduranceId, enduranceModel)))
+      // check if the endurance not exist
+      if (!(await utils.checkId(armorType.endurance, enduranceModel)))
       {
-        reply.code(201).send("No existe ninguna endurance con Id " + armorType.enduranceId);
+        reply.code(201).send("No existe ninguna endurance con Id " + armorType.endurance);
         return;
       }
-      // check if the skillId not exist
-      skill = await utils.checkId(armorType.skillId, skillModel);
+      // check if the skill not exist
+      skill = await utils.checkId(armorType.skill, skillModel);
       if (!(skill))
       {
-        reply.code(201).send("No existe ningun skill con Id " + armorType.skillId);  
+        reply.code(201).send("No existe ningun skill con Id " + armorType.skill);
         return;
       }
       // check if skillType is not "movement manouver"
-      skillType = await utils.checkId(skill.skillTypeId, skillTypeModel);
+      skillType = await utils.checkId(skill.skillType, skillTypeModel);
       if (skillType.name != skillTypeModel.contents.movementManouver)
       {
-        reply.code(201).send("El skill " + skill.name + " no es un skillType " + skillTypeModel.contents.movementManouver);
+        reply.code(201).send("El skill " + skill.name + " no tiene un skillType " + skillTypeModel.contents.movementManouver);
         return
       }
       // all checks passed ok
@@ -46,33 +48,58 @@ module.exports =
     {
       reply.code(500).send(e);
     }
+  },
+  // get the list of armorTypes
+  fetch: async function (request, reply)
+  {
+    try
+    {
+      const armorTypes = await armorTypeModel.find({})
+                           .populate("endurance","-_id name")
+                           .populate("skill","-_id name");
+
+      reply.code(200).send(armorTypes);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
+  },
+  // delete an armorType
+  delete: async function (request, reply)
+  {
+    try 
+    {
+      const armorTypeId = request.params.id;
+      //check if request.params.id has a valid length for an Id
+      if ((armorTypeId.length != 12) && (armorTypeId.length != 24))
+      {
+        reply.code(201).send("El Id " + armorTypeId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(armorTypeId);
+      if (armorTypeId != validId)
+      {
+        reply.code(201).send("El Id " + armorTypeId + " no es válido");
+        return;
+      }
+      const armorTypeToDelete = await utils.checkId(armorTypeId,armorTypeModel);
+      //check if armorTypeId not exist
+      if (!(armorTypeToDelete))
+      {
+        reply.code(201).send("No existe ningun armorType con Id " + armorTypeId);
+        return;
+      }
+      // all checks passed ok
+      await armorTypeModel.findByIdAndDelete(armorTypeId);
+      reply.code(200).send(armorTypeToDelete.name);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
   }
-};
+}
 
-/*
-  //#get a single note
-  get: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const note = await Note.findById(noteId);
-      reply.code(200).send(note);
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  //#update a note
-  update: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const updates = request.body;
-      await Note.findByIdAndUpdate(noteId, updates);
-      const noteToUpdate = await Note.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate });
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  
-*/
+module.exports = armorTypeController;

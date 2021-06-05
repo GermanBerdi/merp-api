@@ -7,7 +7,7 @@ const utils          = require("../utils");
 const skillController =
 {
   // create a skill
-  create: async (request, reply) =>
+  create: async function (request, reply)
   {
     try
     {
@@ -18,7 +18,7 @@ const skillController =
         reply.code(201).send("Ya existe un skill con name " + skill.name);
         return;
       }
-      // check if the skillTypeId not exist
+      // check if the skillType not exist
       if (!(await utils.checkId(skill.skillType,skillTypeModel)))
       {
         reply.code(201).send("No existe ningun skillType con Id " + skill.skillType);  
@@ -33,12 +33,14 @@ const skillController =
       reply.code(500).send(e);
     }
   },
-  // get the list of skill
-  fetch: async (request, reply) =>
+  // get the list of skills
+  fetch: async function (request, reply)
   {
     try
     {
-      const skills = await skillModel.find({}).populate("skillType","-_id name");
+      const skills = await skillModel.find({})
+                      .populate("skillType","-_id name");
+
       reply.code(200).send(skills);
     } 
     catch (e) 
@@ -62,7 +64,6 @@ const skillController =
       const validId = new ObjectId(skillId);
       if (skillId != validId)
       {
-        
         reply.code(201).send("El Id " + skillTId + " no es válido");
         return;
       }

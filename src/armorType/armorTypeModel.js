@@ -1,9 +1,9 @@
 // armorType
 // - name        (nombre del armor_type)
-// - enduranceId (determina que columna usar de la tabla de ataque que utilice el arma del atacante...)
+// - endurance   (determina que columna usar de la tabla de ataque que utilice el arma del atacante...)
 //               (...tal y como esta estructurado el schema de los intervalos de ataque es para saber...)
 //               (...que intervalo mirar. Describe de cierto modo la proteccion que brinda la armadura)
-// - skillId     (habilidad que suma su bonificacion al uso de la armadura. Tiene que ser un skillType movement maneuver)
+// - skill       (habilidad que suma su bonificacion al uso de la armadura. Tiene que ser un skillType movement maneuver)
 // - encumbrance (modificador que se aplica a Maniobra y Moviemiento con esta clase de armadura)
 //               (segun las reglas "sin armadura 0, cuero -15, cuero endurecido -30, cota de malas -45, coraza -60")
 
@@ -17,8 +17,8 @@ const mongoose = require("mongoose");
 
 const armorTypeSchema = new mongoose.Schema({
   "name"        : {type: String, required: true},
-  "enduranceId" : {type: mongoose.Schema.ObjectId, required: true},
-  "skillId"     : {type: mongoose.Schema.ObjectId, required: true},
+  "endurance"   : {type: mongoose.Schema.ObjectId, required: true, ref: "endurance"},
+  "skill"       : {type: mongoose.Schema.ObjectId, required: true, ref: "skill"},
   "encumbrance" : {type: Number, required: true}
 });
 

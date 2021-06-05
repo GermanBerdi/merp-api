@@ -1,6 +1,6 @@
 // skill
-// - name        (nombre de la habilidad)
-// - skillTypeId (SkillType al que pertenece la habilidad)
+// - name      (nombre de la habilidad)
+// - skillType (SkillType al que pertenece la habilidad)
 
 const mongoose = require("mongoose");
 
