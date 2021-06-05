@@ -39,7 +39,22 @@ const armorController =
     try
     {
       const armors = await armorModel.find({})
-                       .populate("armorType","-_id name");
+                       .populate({
+                          path: "armorType",
+                          select: "-_id",
+                          populate: [{
+                            path: "endurance",
+                            select: "-_id"
+                          },{
+                            path: "skill",
+                            select: "-_id",
+                            populate: {
+                              path: "skillType",
+                              select: "-_id"
+                            }
+                          }]
+                        })
+                       .exec();
 
       reply.code(200).send(armors);
     } 

@@ -17,7 +17,7 @@ const mongoose = require("mongoose");
 
 const tableSchema = new mongoose.Schema({
   "name"      : {type: String, required: true},
-  "tableType" : {type: String, required: true, enum: Object.values(tableType)}
+  "tableType" : {type: String, required: true, enum: Object.keys(tableType)}
 });
 
 const table = mongoose.model("table", tableSchema);

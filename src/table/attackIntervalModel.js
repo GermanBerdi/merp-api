@@ -14,7 +14,7 @@ const attackIntervalSchema = new mongoose.Schema({
   "min"         : {type: Number, required :true},
   "max"         : {type: Number, required :true},
   "lifePoints"  : {type: Number, required :true},
-  "criticalId"  : {type: mongoose.Schema.ObjectId} 
+  "criticalId"  : {type: mongoose.Schema.ObjectId}
 });
 
 const attackInterval = mongoose.model("attackInterval", attackIntervalSchema);
