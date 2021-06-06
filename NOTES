@@ -1,8 +1,6 @@
 NOTES.
 
-VAMOS por la funcion GET de attackTableController....
-
-
+VAMOS por la funcion DELETE de attackTableController....
 
 cuando quiero borrar un documento paso su id por parametro en la url.
 

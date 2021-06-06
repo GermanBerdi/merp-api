@@ -19,7 +19,7 @@ function attackTableRoutes (app)
     app.get("/api/attack-interval/:id", attackIntervalController.fetch);
 
     // delete an attackInterval
-    //app.delete("/api/attack-interval/:id", attackIntervalController.delete);
+    app.delete("/api/attack-interval/:id", attackIntervalController.delete);
 }
 
 module.exports = attackTableRoutes;

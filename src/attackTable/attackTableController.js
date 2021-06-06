@@ -62,7 +62,7 @@ const attackTableController =
       //check if attackTableId not exist
       if (!(attackTableToDelete))
       {
-        reply.code(400).send("No existe ningun tableAttack con Id " + attackTableId);
+        reply.code(400).send("No existe ningun attackTable con Id " + attackTableId);
         return;
       }
       // all checks passed ok
