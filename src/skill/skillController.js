@@ -39,7 +39,10 @@ const skillController =
     try
     {
       const skills = await skillModel.find({})
-                      .populate("skillType","-_id name");
+                      .populate({
+                        path:"skillType",
+                        select: "-_id -__v"
+                      });
 
       reply.code(200).send(skills);
     } 
