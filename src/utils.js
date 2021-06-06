@@ -28,14 +28,14 @@ async function checkId(id, model)
     return await model.findById(id);
 }
 
-async function findNumAttackTable(num, tableId, enduranceId, model)
+async function findNumAttackTable(num, table, endurance, model)
 {
-    return await model.findOne ({$and: [{tableId: tableId}, {enduranceId: enduranceId}, {min: {$lte: num}}, {max: {$gte: num}}] });
+    return await model.findOne ({$and: [{table: table}, {endurance: endurance}, {min: {$lte: num}}, {max: {$gte: num}}] });
 }
 
-async function findRangeAttackTable(min, max, enduranceId, tableId, model)
+async function findRangeAttackTable(min, max, table, endurance, model)
 {
-    return await model.findOne({$and: [{tableId:tableId}, {enduranceId: enduranceId}, {min:{$gte:min}}, {max:{$lte:max}}] });
+    return await model.findOne({$and: [{table:table}, {endurance: endurance}, {min:{$gte:min}}, {max:{$lte:max}}] });
 }
 
 async function findNumCriticalTable(num, tableId, model)

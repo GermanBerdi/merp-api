@@ -18,7 +18,7 @@ const routes = require("./routes/routes");
 // connected fastify to mongoose
 try 
 {
-  mongoose.connect("mongodb://localhost:27017/merpDB");
+  mongoose.connect("mongodb://localhost:27017/merpDB",{ useNewUrlParser: true });
 } 
 catch (e) 
 {

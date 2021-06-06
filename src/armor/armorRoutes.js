@@ -9,7 +9,7 @@ function armorRoutes (app)
     app.get("/api/armor", armorController.fetch);
 
     // delete an armor
-    //app.delete("/api/armor/:id", armorController.delete);
+    app.delete("/api/armor/:id", armorController.delete);
 }
 
 module.exports = armorRoutes;

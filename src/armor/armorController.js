@@ -61,6 +61,41 @@ const armorController =
     {
       reply.code(500).send(e);
     }
+  },
+  // delete an armor
+  delete: async function (request, reply)
+  {
+    try 
+    {
+      const armorId = request.params.id;
+      //check if request.params.id has a valid length for an Id
+      if ((armorId.length != 12) && (armorId.length != 24))
+      {
+        reply.code(400).send("El Id " + armorId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(armorId);
+      if (armorId != validId)
+      {
+        reply.code(400).send("El Id " + armorId + " no es válido");
+        return;
+      }
+      const armorToDelete = await utils.checkId(armorId,armorModel);
+      //check if armorTypeId not exist
+      if (!(armorToDelete))
+      {
+        reply.code(400).send("No existe ningun armor con Id " + armorId);
+        return;
+      }
+      // all checks passed ok
+      await armorModel.findByIdAndDelete(armorId);
+      reply.code(200).send(armorToDelete.name);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
   }
 }
 
