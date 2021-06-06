@@ -15,13 +15,13 @@ const armorController =
       //check if the armor alredy exist
       if (await utils.checkExist("name", armor.name, armorModel)) 
       {
-        reply.code(201).send("Ya existe un armor con name " + armor.name);
+        reply.code(400).send("Ya existe un armor con name " + armor.name);
         return;
       }   
       // check if the armorType not exist
       if (!(await utils.checkId(armor.armorType, armorTypeModel)))
       {
-        reply.code(201).send("No existe ningun armorType con Id " + armor.armorType);
+        reply.code(400).send("No existe ningun armorType con Id " + armor.armorType);
         return;
       }
       // all checks passed ok

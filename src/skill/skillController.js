@@ -15,13 +15,13 @@ const skillController =
       // check if the skill alredy exist
       if (await utils.checkExist("name", skill.name, skillModel))
       {
-        reply.code(201).send("Ya existe un skill con name " + skill.name);
+        reply.code(400).send("Ya existe un skill con name " + skill.name);
         return;
       }
       // check if the skillType not exist
       if (!(await utils.checkId(skill.skillType,skillTypeModel)))
       {
-        reply.code(201).send("No existe ningun skillType con Id " + skill.skillType);  
+        reply.code(400).send("No existe ningun skillType con Id " + skill.skillType);  
         return;
       }
       // all checks passed ok
@@ -57,21 +57,21 @@ const skillController =
       //check if request.params.id has a valid length for an Id
       if ((skillId.length != 12) && (skillId.length != 24))
       {
-        reply.code(201).send("El Id " + skillId + " no tiene un longitud válida");
+        reply.code(400).send("El Id " + skillId + " no tiene un longitud válida");
         return;
       }
       //check if request.params.id is a valid Id
       const validId = new ObjectId(skillId);
       if (skillId != validId)
       {
-        reply.code(201).send("El Id " + skillTId + " no es válido");
+        reply.code(400).send("El Id " + skillTId + " no es válido");
         return;
       }
       const skillToDelete = await utils.checkId(skillId,skillModel);
       //check if skillTypeId not exist
       if (!(skillToDelete))
       {
-        reply.code(201).send("No existe ningun skill con Id " + skillId);
+        reply.code(400).send("No existe ningun skill con Id " + skillId);
         return;
       }
       // all checks passed ok

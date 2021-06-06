@@ -17,27 +17,27 @@ const armorTypeController =
       // check if the armorType alredy exist
       if (await utils.checkExist("name", armorType.name, armorTypeModel)) 
       {
-        reply.code(201).send("Ya existe un armorType con name " + armorType.name);
+        reply.code(400).send("Ya existe un armorType con name " + armorType.name);
         return;
       }
       // check if the endurance not exist
       if (!(await utils.checkId(armorType.endurance, enduranceModel)))
       {
-        reply.code(201).send("No existe ninguna endurance con Id " + armorType.endurance);
+        reply.code(400).send("No existe ninguna endurance con Id " + armorType.endurance);
         return;
       }
       // check if the skill not exist
       skill = await utils.checkId(armorType.skill, skillModel);
       if (!(skill))
       {
-        reply.code(201).send("No existe ningun skill con Id " + armorType.skill);
+        reply.code(400).send("No existe ningun skill con Id " + armorType.skill);
         return;
       }
       // check if skillType is not "movement manouver"
       skillType = await utils.checkId(skill.skillType, skillTypeModel);
       if (skillType.name != skillTypeModel.contents.movementManouver)
       {
-        reply.code(201).send("El skill " + skill.name + " no tiene un skillType " + skillTypeModel.contents.movementManouver);
+        reply.code(400).send("El skill " + skill.name + " no tiene un skillType " + skillTypeModel.contents.movementManouver);
         return
       }
       // all checks passed ok
@@ -74,21 +74,21 @@ const armorTypeController =
       //check if request.params.id has a valid length for an Id
       if ((armorTypeId.length != 12) && (armorTypeId.length != 24))
       {
-        reply.code(201).send("El Id " + armorTypeId + " no tiene un longitud válida");
+        reply.code(400).send("El Id " + armorTypeId + " no tiene un longitud válida");
         return;
       }
       //check if request.params.id is a valid Id
       const validId = new ObjectId(armorTypeId);
       if (armorTypeId != validId)
       {
-        reply.code(201).send("El Id " + armorTypeId + " no es válido");
+        reply.code(400).send("El Id " + armorTypeId + " no es válido");
         return;
       }
       const armorTypeToDelete = await utils.checkId(armorTypeId,armorTypeModel);
       //check if armorTypeId not exist
       if (!(armorTypeToDelete))
       {
-        reply.code(201).send("No existe ningun armorType con Id " + armorTypeId);
+        reply.code(400).send("No existe ningun armorType con Id " + armorTypeId);
         return;
       }
       // all checks passed ok
