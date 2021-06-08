@@ -38,14 +38,14 @@ async function findRangeAttackTable(min, max, table, endurance, model)
     return await model.findOne({$and: [{table:table}, {endurance: endurance}, {min:{$gte:min}}, {max:{$lte:max}}] });
 }
 
-async function findNumCriticalTable(num, tableId, model)
+async function findNumCriticalTable(num, table, model)
 {
-    return await model.findOne ({$and: [{tableId: tableId}, {min: {$lte: num}}, {max: {$gte: num}}] });
+    return await model.findOne ({$and: [{table: table}, {min: {$lte: num}}, {max: {$gte: num}}] });
 }
 
-async function findRangeCriticalTable(min, max, tableId, model)
+async function findRangeCriticalTable(min, max, table, model)
 {
-    return await model.findOne({$and: [{tableId:tableId}, {min:{$gte:min}}, {max:{$lte:max}}] });
+    return await model.findOne({$and: [{table:table}, {min:{$gte:min}}, {max:{$lte:max}}] });
 }
 
 // export constant

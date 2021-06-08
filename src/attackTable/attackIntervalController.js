@@ -55,7 +55,7 @@ const attackIntervalController =
       intervalInside = await utils.findRangeAttackTable(attackInterval.min,attackInterval.max,attackInterval.table,attackInterval.endurance,attackIntervalModel);
       if (intervalInside)
       {
-        reply.code(400).send("Entre " + attackInterval.min + " y " + attackInterval.max + " ya esta incluido en el intervalo " + intervalInside);
+        reply.code(400).send("Entre " + attackInterval.min + " y " + attackInterval.max + " ya esta incluido el intervalo " + intervalInside);
         return;
       }
       // all checks passed ok

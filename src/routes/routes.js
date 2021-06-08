@@ -5,10 +5,9 @@ const armorTypeRoutes     = require("../armorType/armorTypeRoutes");
 const armorRoutes         = require("../armor/armorRoutes");
 const criticalLevelRoutes = require("../criticalLevel/criticalLevelRoutes");
 const attackTableRoutes   = require("../attackTable/attackTableRoutes");
-
-// const criticalIntervalController = require("../table/criticalIntervalController");
-// const weaponTypeController       = require("../weaponType/weaponTypeController");
-// const weaponController           = require("../weapon/weaponController");
+const criticalTableRoutes = require("../criticalTable/criticalTableRoutes");
+const weaponTypeRoutes    = require("../weaponType/weaponTypeRoutes");
+const weaponRoutes        = require("../weapon/weaponRoutes");
 
 function routes (app)
 {
@@ -19,6 +18,9 @@ function routes (app)
   armorRoutes(app);
   criticalLevelRoutes(app);
   attackTableRoutes(app);
+  criticalTableRoutes(app);
+  weaponTypeRoutes(app);
+  weaponRoutes(app);
 }
 
 module.exports = routes;

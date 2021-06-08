@@ -5,7 +5,7 @@ const utils            = require("../utils");
 
 const attackTableController = 
 {
-  // create an AttackTable
+  // create an attackTable
   create: async function (request, reply)
   {
     try 
@@ -18,8 +18,8 @@ const attackTableController =
         return;
       }
       // all checks passed ok
-      const newattackTable = await attackTableModel.create(attackTable);
-      reply.code(201).send(newattackTable);
+      const newAttackTable = await attackTableModel.create(attackTable);
+      reply.code(201).send(newAttackTable);
     } 
     catch (e)
     {

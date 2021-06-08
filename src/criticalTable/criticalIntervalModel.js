@@ -1,5 +1,5 @@
 // criticalInterval
-// - tableId         (id de la tabla a la que pertenece)
+// - table           (id de la tabla a la que pertenece)
 // - min             (para saber si el resultado de un ataque hace el daño de este intervalo...)
 // - max             (...tiene que estar entre el minimo y maximo)
 // - lifePoint       (puntos de vida que se pierden como resultado de recibir un critico)
@@ -31,7 +31,7 @@ const utils = require("../utils");
 const mongoose = require("mongoose");
 
 const criticalIntervalSchema = new mongoose.Schema({
-  "tableId"         : {type: mongoose.Schema.ObjectId, required :true},
+  "table"           : {type: mongoose.Schema.ObjectId, required :true, ref: "criticalTable"},
   "min"             : {type: Number, required :true},
   "max"             : {type: Number, required :true},
   "description"     : {type: String, required :true},

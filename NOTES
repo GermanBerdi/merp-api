@@ -1,6 +1,6 @@
 NOTES.
 
-VAMOS por la funcion DELETE de attackTableController....
+VAMOS por la funcion GET de weapons....
 
 cuando quiero borrar un documento paso su id por parametro en la url.
 
@@ -29,3 +29,5 @@ Objeto:
 
 
 %Porcentaje de habilidad del turno para atacar y %Porcentaje de la habilidad esquivar para esquivar
+
+Hay un tema a controlar de consistencia de datos a la hora de borrar un elemento de la BBDD de la que depende otros elementos

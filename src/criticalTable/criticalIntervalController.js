@@ -1,51 +1,48 @@
-const tableModel            = require("./tableModel");
+const criticalTableModel    = require("./criticalTableModel");
 const criticalIntervalModel = require("./criticalIntervalModel");
+
+const ObjectId              = require("mongoose").Types.ObjectId;
 const utils                 = require("../utils");
 
-module.exports = 
+const criticalIntervalController =  
 {
-  //# create an attackInterval
-  create: async (request, reply) => {
+  // create a criticalInterval
+  create: async function (request, reply)
+  {
     try {
       const criticalInterval = request.body;   
-      // check if the tableId not exist
-      table = await utils.checkId(criticalInterval.tableId,tableModel);
+      // check if the table not exist
+      table = await utils.checkId(criticalInterval.table,criticalTableModel);
       if (!(table))
       {
-        reply.code(201).send("No existe ninguna Table con Id " + criticalInterval.tableId);
+        reply.code(400).send("No existe ninguna Table con Id " + criticalInterval.table);
         return;
-      }   
-      // check if tableType is not "critical"
-      if (table.tableType != tableModel.tableType.critical)
-      {
-        reply.code(201).send("La tabla " + table.name + " no tiene un tableType " + tableModel.tableType.critical);
-        return
       }
       //check the minimun is minor than the maximun
       if (criticalInterval.min > criticalInterval.max)
       {
-        reply.code(201).send("El mínimo del rango no puede ser mayor que el máximo");
+        reply.code(400).send("El mínimo del rango no puede ser mayor que el máximo");
         return;
       }
       //check that the minimun interval isn´t included in an existing interval
-      minInTable = await utils.findNumCriticalTable(criticalInterval.min,criticalInterval.tableId,criticalIntervalModel);
+      minInTable = await utils.findNumCriticalTable(criticalInterval.min,criticalInterval.table,criticalIntervalModel);
       if (minInTable)
       {
-        reply.code(201).send(criticalInterval.min + " ya esta incluido en el intervalo " + minInTable);
+        reply.code(400).send(criticalInterval.min + " ya esta incluido en el intervalo " + minInTable);
         return;
       }
       //check that the maximun interval isn´t included in an existing interval
-      maxInTable = await utils.findNumCriticalTable(criticalInterval.max,criticalInterval.tableId,criticalIntervalModel);
+      maxInTable = await utils.findNumCriticalTable(criticalInterval.max,criticalInterval.table,criticalIntervalModel);
       if (maxInTable)
       {
-        reply.code(201).send(criticalInterval.max + " ya esta incluido en el intervalo " + maxInTable);
+        reply.code(400).send(criticalInterval.max + " ya esta incluido en el intervalo " + maxInTable);
         return;
       }
       //check there is no interval inside the interval
-      intervalInside = await utils.findRangeCriticalTable(criticalInterval.min,criticalInterval.max,criticalInterval.tableId,criticalIntervalModel);
+      intervalInside = await utils.findRangeCriticalTable(criticalInterval.min,criticalInterval.max,criticalInterval.table,criticalIntervalModel);
       if (intervalInside)
       {
-        reply.code(201).send("Entre " + criticalInterval.min + " y " + criticalInterval.max + " ya esta incluido en el intervalo " + intervalInside);
+        reply.code(400).send("Entre " + criticalInterval.min + " y " + criticalInterval.max + " ya esta incluido el intervalo " + intervalInside);
         return;
       }
       // all checks passed ok
@@ -56,53 +53,81 @@ module.exports =
     {
       reply.code(500).send(e);
     }
-  }
-/*
-  //#get the list of notes
-  fetch: async (request, reply) => {
-    try {
-      const armours = await armour_model.find({});
-      reply.code(200).send(armours);
-    } catch (e) {
+  },
+  // get the list of criticalIntervals of a specific table
+  fetch: async function (request, reply)
+  {
+    try
+    {
+      const criticalTableId = request.params.id;
+      //check if request.params.id has a valid length for an Id
+      if ((criticalTableId.length != 12) && (criticalTableId.length != 24))
+      {
+        reply.code(400).send("El Id " + criticalTableId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(criticalTableId);
+      if (criticalTableId != validId)
+      {
+        reply.code(400).send("El Id " + criticalTableId + " no es válido");
+        return;
+      }
+      //check if attackTableId not exist
+      if (!(await utils.checkId(criticalTableId,criticalTableModel)))
+      {
+        reply.code(400).send("No existe ningun criticalTable con Id " + criticalTableId);
+        return;
+      }
+      // all checks passed ok
+      const criticalIntervals = await criticalIntervalModel.find({table:criticalTableId})
+                                 .populate({
+                                   path: "table",
+                                   select: "-_id -__v"
+                                 });
+
+      reply.code(200).send(criticalIntervals);
+    } 
+    catch (e) 
+    {
       reply.code(500).send(e);
     }
-  }*/
+  },
+  // delete an criticalInterval
+  delete: async function (request, reply)
+  {
+    try 
+    {
+      const criticalIntervalId = request.params.id;
+      //check if request.params.id has a valid length for an Id
+      if ((criticalIntervalId.length != 12) && (criticalIntervalId.length != 24))
+      {
+        reply.code(400).send("El Id " + criticalIntervalId + " no tiene un longitud válida");
+        return;
+      }
+      //check if request.params.id is a valid Id
+      const validId = new ObjectId(criticalIntervalId);
+      if (criticalIntervalId != validId)
+      {
+        reply.code(400).send("El Id " + criticalIntervalId + " no es válido");
+        return;
+      }
+      const criticalIntervalToDelete = await utils.checkId(criticalIntervalId,criticalIntervalModel);
+      //check if attackIntervalId not exist
+      if (!(criticalIntervalToDelete))
+      {
+        reply.code(400).send("No existe ningun criticalInterval con Id " + criticalIntervalId);
+        return;
+      }
+      // all checks passed ok
+      await criticalIntervalModel.findByIdAndDelete(criticalIntervalId);
+      reply.code(200).send(criticalIntervalToDelete);
+    } 
+    catch (e) 
+    {
+      reply.code(500).send(e);
+    }
+  }
 }
 
-/*
-  //#get a single note
-  get: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const note = await Note.findById(noteId);
-      reply.code(200).send(note);
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  //#update a note
-  update: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const updates = request.body;
-      await Note.findByIdAndUpdate(noteId, updates);
-      const noteToUpdate = await Note.findById(noteId);
-      reply.code(200).send({ data: noteToUpdate });
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-
-  //#delete a note
-  delete: async (request, reply) => {
-    try {
-      const noteId = request.params.id;
-      const noteToDelete = await Note.findById(noteId);
-      await Note.findByIdAndDelete(noteId);
-      reply.code(200).send({ data: noteToDelete });
-    } catch (e) {
-      reply.code(500).send(e);
-    }
-  },
-*/
+module.exports = criticalIntervalController;
