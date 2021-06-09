@@ -31,11 +31,11 @@ const utils = require("../utils");
 const mongoose = require("mongoose");
 
 const criticalIntervalSchema = new mongoose.Schema({
-  "table"           : {type: mongoose.Schema.ObjectId, required :true, ref: "criticalTable"},
-  "min"             : {type: Number, required :true},
-  "max"             : {type: Number, required :true},
-  "description"     : {type: String, required :true},
-  "lifePoints"      : {type: Number, required :true}, 
+  "table"           : {type: mongoose.Schema.ObjectId, required: true, ref: "criticalTable"},
+  "min"             : {type: Number, required: true},
+  "max"             : {type: Number, required: true},
+  "description"     : {type: String, required: true},
+  "lifePoints"      : {type: Number, required: true}, 
   "activityPenalty" : {
                         "value"     : {type: Number},
                         "assaults"  : {type: Number}

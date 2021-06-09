@@ -55,8 +55,13 @@ const armorTypeController =
     try
     {
       const armorTypes = await armorTypeModel.find({})
-                           .populate("endurance","-_id name")
-                           .populate("skill","-_id name");
+                           .populate([{
+                             path:"endurance",
+                             select: "-_id name"
+                           },{
+                             path:"skill",
+                             select: "-_id name"
+                           }]);
 
       reply.code(200).send(armorTypes);
     } 

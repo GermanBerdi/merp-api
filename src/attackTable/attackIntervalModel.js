@@ -9,11 +9,11 @@
 const mongoose = require("mongoose");
 
 const attackIntervalSchema = new mongoose.Schema({
-  "table"         : {type: mongoose.Schema.ObjectId, required :true, ref: "attackTable"},
-  "endurance"     : {type: mongoose.Schema.ObjectId, required :true, ref: "endurance"},
-  "min"           : {type: Number, required :true},
-  "max"           : {type: Number, required :true},
-  "lifePoints"    : {type: Number, required :true},
+  "table"         : {type: mongoose.Schema.ObjectId, required: true, ref: "attackTable"},
+  "endurance"     : {type: mongoose.Schema.ObjectId, required: true, ref: "endurance"},
+  "min"           : {type: Number, required: true},
+  "max"           : {type: Number, required: true},
+  "lifePoints"    : {type: Number, required: true},
   "criticalLevel" : {type: mongoose.Schema.ObjectId, ref: "criticalLevel"}
 });
 

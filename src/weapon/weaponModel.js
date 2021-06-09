@@ -25,22 +25,22 @@
 const mongoose = require("mongoose");
 
 const weaponSchema = new mongoose.Schema({
-  "name"          : {type: String, required :true},
-  "description"   : {type: String, required :true},
-  "skill"         : {type: mongoose.Schema.ObjectId, required :true},
-  "attackTable"   : {type: mongoose.Schema.ObjectId, required :true}, 
+  "name"          : {type: String, required: true},
+  "description"   : {type: String, required: true},
+  "skill"         : {type: mongoose.Schema.ObjectId, required: true, ref: "skill"},
+  "attackTable"   : {type: mongoose.Schema.ObjectId, required: true, ref: "attackTable"}, 
   "criticals"     : [{
-                      "criticalTable"    : {type: mongoose.Schema.ObjectId, required :true},
-                      "criticalSeverity" : {type: Number, required :true},
-                      "criticalMax"      : {type: mongoose.Schema.ObjectId, required :true}
+                      "criticalTable"    : {type: mongoose.Schema.ObjectId, required: true, ref: "criticalTable"},
+                      "criticalSeverity" : {type: Number, required: true},
+                      "criticalMax"      : {type: mongoose.Schema.ObjectId, required: true, ref: "criticalLevel"}
                     }],
   "armorPiercing" : [{
-                      "armorType" : {type: mongoose.Schema.ObjectId, required :true},
-                      "bonus"     : {type: Number, required :true}
+                      "armorType" : {type: mongoose.Schema.ObjectId, required: true, ref: "armorType"},
+                      "bonus"     : {type: Number, required: true}
                     }],
   "fisicalBonus"  : {type: Number},
   "magicalBonus"  : {type: Number},
-  "weaponType"    : {type: mongoose.Schema.ObjectId, required :true}
+  "weaponType"    : {type: mongoose.Schema.ObjectId, required: true, ref: "weaponType"}
 });
 
 const weapon = mongoose.model("weapon", weaponSchema);
