@@ -113,7 +113,6 @@ const weaponController =
                           select: "-_id -__v"
                         },{
                           path: "criticals",
-                          select: "-_id -__v",
                           populate:[{
                             path: "criticalTable",
                             select: "-_id -__v"
@@ -123,7 +122,6 @@ const weaponController =
                           }]
                         },{
                           path: "armorPiercing",
-                          select: "-_id -__v",
                             populate:{
                             path: "armorType",
                             select: "-_id -__v -skill -endurance -encumbrance"

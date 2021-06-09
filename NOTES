@@ -1,6 +1,6 @@
 NOTES.
 
-VAMOS por la funcion GET de weapons....
+VAMOS por la funcion DELETE
 
 cuando quiero borrar un documento paso su id por parametro en la url.
 
