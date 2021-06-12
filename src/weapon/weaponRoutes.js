@@ -9,7 +9,7 @@ function weaponRoutes (app)
     app.get("/api/weapon", weaponController.fetch);
 
     // delete a weapon
-    //app.delete("/api/weapon/:id", weaponController.delete);
+    app.delete("/api/weapon/:id", weaponController.delete);
 }
 
 module.exports = weaponRoutes;

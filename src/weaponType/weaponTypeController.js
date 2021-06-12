@@ -59,7 +59,7 @@ const weaponTypeController =
         return;
       }
       const weaponTypeToDelete = await utils.checkId(weaponTypeId,weaponTypeModel);
-      //check if enduranceId not exist
+      //check if weaponTypeId not exist
       if (!(weaponTypeToDelete))
       {
         reply.code(400).send("No existe ningun weaponType con Id " + weaponTypeId);

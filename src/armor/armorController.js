@@ -82,7 +82,7 @@ const armorController =
         return;
       }
       const armorToDelete = await utils.checkId(armorId,armorModel);
-      //check if armorTypeId not exist
+      //check if armorId not exist
       if (!(armorToDelete))
       {
         reply.code(400).send("No existe ningun armor con Id " + armorId);

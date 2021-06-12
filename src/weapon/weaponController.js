@@ -7,7 +7,7 @@ const armorTypeModel     = require("../armorType/armorTypeModel");
 const weaponTypeModel    = require("../weaponType/weaponTypeModel");
 const weaponModel        = require("./weaponModel");
 
-
+const ObjectId       = require("mongoose").Types.ObjectId;
 const utils           = require("../utils");
 
 const weaponController = 
@@ -134,42 +134,42 @@ const weaponController =
     {
       reply.code(500).send(e);
     }
-  }/*,
+  },
   // delete a weapon
   delete: async function (request, reply)
   {
     try 
     {
-      const weaponTypeId = request.params.id;
+      const weaponId = request.params.id;
       //check if request.params.id has a valid length for an Id
-      if ((weaponTypeId.length != 12) && (weaponTypeId.length != 24))
+      if ((weaponId.length != 12) && (weaponId.length != 24))
       {
-        reply.code(400).send("El Id " + weaponTypeId + " no tiene un longitud válida");
+        reply.code(400).send("El Id " + weaponId + " no tiene un longitud válida");
         return;
       }
       //check if request.params.id is a valid Id
-      const validId = new ObjectId(weaponTypeId);
-      if (weaponTypeId != validId)
+      const validId = new ObjectId(weaponId);
+      if (weaponId != validId)
       {
-        reply.code(400).send("El Id " + weaponTypeId + " no es válido");
+        reply.code(400).send("El Id " + weaponId + " no es válido");
         return;
       }
-      const weaponTypeToDelete = await utils.checkId(weaponTypeId,weaponTypeModel);
-      //check if enduranceId not exist
-      if (!(weaponTypeToDelete))
+      const weaponToDelete = await utils.checkId(weaponId,weaponModel);
+      //check if weaponId not exist
+      if (!(weaponToDelete))
       {
-        reply.code(400).send("No existe ningun weaponType con Id " + weaponTypeId);
+        reply.code(400).send("No existe ningun weapon con Id " + weaponId);
         return;
       }
       // all checks passed ok
-      await weaponTypeModel.findByIdAndDelete(weaponTypeId);
-      reply.code(200).send(weaponTypeToDelete.name);
+      await weaponModel.findByIdAndDelete(weaponId);
+      reply.code(200).send(weaponToDelete.name);
     } 
     catch (e) 
     {
       reply.code(500).send(e);
     }
-  }*/
+  }
 }
 
 module.exports = weaponController;

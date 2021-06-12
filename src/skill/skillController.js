@@ -71,7 +71,7 @@ const skillController =
         return;
       }
       const skillToDelete = await utils.checkId(skillId,skillModel);
-      //check if skillTypeId not exist
+      //check if skillId not exist
       if (!(skillToDelete))
       {
         reply.code(400).send("No existe ningun skill con Id " + skillId);
