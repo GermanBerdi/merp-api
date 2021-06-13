@@ -6,7 +6,7 @@ const utils              = require("../utils");
 const criticalLevel =
 {
   // create a critical
-  create: async (request, reply) =>
+  create: async function (request, reply)
   {
     try
     {
@@ -61,7 +61,7 @@ const criticalLevel =
       //check if criticalLevelId not exist
       if (!(criticalLevelToDelete))
       {
-        reply.code(400).send("No existe ningun endurance con Id " + criticalLevelId);
+        reply.code(400).send("No existe ningun criticalLevel con Id " + criticalLevelId);
         return;
       }
       // all checks passed ok

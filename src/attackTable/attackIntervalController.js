@@ -9,27 +9,35 @@ const utils               = require("../utils");
 const attackIntervalController =  
 {
   // create an attackInterval
-  create: async function (request, reply) {
-    try {
+  create: async function (request, reply)
+  {
+    try 
+    {
       const attackInterval = request.body;   
       // check if the table not exist
-      table = await utils.checkId(attackInterval.table,attackTableModel);
+      const table = await utils.checkId(attackInterval.table,attackTableModel);
       if (!(table))
       {
         reply.code(400).send("No existe ninguna Table con Id " + attackInterval.table);
         return;
       }   
       // check if the endurance not exist
-      if (!(await utils.checkId(attackInterval.endurance,enduranceModel)))
+      const endurance = await utils.checkId(attackInterval.endurance,enduranceModel);
+      if (!(endurance))
       {
         reply.code(400).send("No existe ningun endurance con Id " + attackInterval.endurance);
         return;
       }
-      // only if criticalLevel is defined, check if the criticalLevel not exist
-      if ((attackInterval.criticalLevel) && !(await utils.checkId(attackInterval.criticalLevel,criticalLevelModel)))
+      // only if criticalLevel is defined...
+      if (attackInterval.criticalLevel)
       {
-        reply.code(400).send("No existe ningun criticalLevel con Id " + attackInterval.criticalLevel);
-        return;
+        //... check if the criticalLevel not exist
+        const criticalLevel = await utils.checkId(attackInterval.criticalLevel,criticalLevelModel);
+        if (!(criticalLevel))
+        {
+          reply.code(400).send("No existe ningun criticalLevel con Id " + attackInterval.criticalLevel);
+          return;  
+        }
       }
       //check the minimun is minor than the maximun
       if (attackInterval.min > attackInterval.max)
@@ -86,8 +94,9 @@ const attackIntervalController =
         reply.code(400).send("El Id " + attackTableId + " no es válido");
         return;
       }
-      //check if attackTableId not exist
-      if (!(await utils.checkId(attackTableId,attackTableModel)))
+      //check if attackTable not exist
+      const attackable = await utils.checkId(attackTableId,attackTableModel);
+      if (!(attackTable))
       {
         reply.code(400).send("No existe ningun tableAttack con Id " + attackTableId);
         return;

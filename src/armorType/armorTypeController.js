@@ -21,20 +21,21 @@ const armorTypeController =
         return;
       }
       // check if the endurance not exist
-      if (!(await utils.checkId(armorType.endurance, enduranceModel)))
+      const endurance = await utils.checkId(armorType.endurance, enduranceModel);
+      if (!(endurance))
       {
         reply.code(400).send("No existe ninguna endurance con Id " + armorType.endurance);
         return;
       }
       // check if the skill not exist
-      skill = await utils.checkId(armorType.skill, skillModel);
+      const skill = await utils.checkId(armorType.skill, skillModel);
       if (!(skill))
       {
         reply.code(400).send("No existe ningun skill con Id " + armorType.skill);
         return;
       }
       // check if skillType is not "movement manouver"
-      skillType = await utils.checkId(skill.skillType, skillTypeModel);
+      const skillType = await utils.checkId(skill.skillType, skillTypeModel);
       if (skillType.name != skillTypeModel.contents.movementManouver)
       {
         reply.code(400).send("El skill " + skill.name + " no tiene un skillType " + skillTypeModel.contents.movementManouver);

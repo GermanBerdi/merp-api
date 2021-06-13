@@ -1,4 +1,4 @@
-const weaponController    = require("./weaponController");
+const weaponController = require("./weaponController");
 
 function weaponRoutes (app)
 {

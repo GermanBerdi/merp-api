@@ -19,7 +19,8 @@ const armorController =
         return;
       }   
       // check if the armorType not exist
-      if (!(await utils.checkId(armor.armorType, armorTypeModel)))
+      const armorType = await utils.checkId(armor.armorType, armorTypeModel);
+      if (!(armorType))
       {
         reply.code(400).send("No existe ningun armorType con Id " + armor.armorType);
         return;

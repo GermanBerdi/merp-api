@@ -19,7 +19,8 @@ const skillController =
         return;
       }
       // check if the skillType not exist
-      if (!(await utils.checkId(skill.skillType,skillTypeModel)))
+      const skillType = await utils.checkId(skill.skillType,skillTypeModel)
+      if (!(skillType))
       {
         reply.code(400).send("No existe ningun skillType con Id " + skill.skillType);  
         return;

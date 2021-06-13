@@ -7,15 +7,16 @@ const armorTypeModel     = require("../armorType/armorTypeModel");
 const weaponTypeModel    = require("../weaponType/weaponTypeModel");
 const weaponModel        = require("./weaponModel");
 
-const ObjectId       = require("mongoose").Types.ObjectId;
-const utils           = require("../utils");
+const ObjectId           = require("mongoose").Types.ObjectId;
+const utils              = require("../utils");
 
 const weaponController = 
 {
   // create a weapon
   create: async function (request, reply) 
   {
-    try {
+    try
+    {
       const weapon = request.body;
       // check if the weapon alredy exist
       if (await utils.checkExist("name", weapon.name, weaponModel))
@@ -57,7 +58,8 @@ const weaponController =
             return;
           } 
           // check if criticals[i].maxId not exist
-          if (!(await utils.checkId(weapon.criticals[i].criticalMax, criticalLevelModel)))
+          criticalMax = await utils.checkId(weapon.criticals[i].criticalMax, criticalLevelModel);
+          if (!(criticalMax))
           {
             reply.code(400).send("No existe ningun criticalLevel con Id " + weapon.criticals[i].criticalMax);
             return;
@@ -70,7 +72,8 @@ const weaponController =
         for (let i = 0; i < weapon.armorPiercing.length; i++)
         {
           //check if armorPiercing[i].armorType not exist
-          if (!(await utils.checkId(weapon.armorPiercing[i].armorType, armorTypeModel)))
+          armorType = await utils.checkId(weapon.armorPiercing[i].armorType, armorTypeModel);
+          if (!(armorType))
           {
             reply.code(400).send("No existe ningun armorType con Id " + weapon.armorPiercing[i].armorType);
             return;
@@ -78,7 +81,8 @@ const weaponController =
         }
       }
       // check if weaponType not exist
-      if (!(await utils.checkId(weapon.weaponType, weaponTypeModel)))
+      weaponType = await utils.checkId(weapon.weaponType, weaponTypeModel);
+      if (!(weaponType))
       {
         reply.code(400).send("No existe ningun weaponType con Id " + weapon.weaponType);
         return;
@@ -121,10 +125,10 @@ const weaponController =
                             select: "-_id -__v"
                           }]
                         },{
-                          path: "armorPiercing",
+                            path: "armorPiercing",
                             populate:{
-                            path: "armorType",
-                            select: "-_id -__v -skill -endurance -encumbrance"
+                              path: "armorType",
+                              select: "-_id -__v -skill -endurance -encumbrance"
                           }
                         }]);
 

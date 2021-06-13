@@ -9,7 +9,8 @@ const criticalIntervalController =
   // create a criticalInterval
   create: async function (request, reply)
   {
-    try {
+    try
+    {
       const criticalInterval = request.body;   
       // check if the table not exist
       table = await utils.checkId(criticalInterval.table,criticalTableModel);

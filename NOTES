@@ -1,7 +1,5 @@
 NOTES.
 
-VAMOS por la funcion DELETE
-
 cuando quiero borrar un documento paso su id por parametro en la url.
 
 ejemplo: app.delete("/api/skill-type/:id", skillTypeController.delete);
