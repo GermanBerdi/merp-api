@@ -1,5 +1,8 @@
 NOTES.
 
+Hay que seguir trabajando en attackResoluctionController,
+hay problemas populando el endurance del attacker
+
 cuando quiero borrar un documento paso su id por parametro en la url.
 
 ejemplo: app.delete("/api/skill-type/:id", skillTypeController.delete);

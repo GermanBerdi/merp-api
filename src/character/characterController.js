@@ -10,7 +10,8 @@ const characterController =
   // create a character
   create: async function (request, reply) 
   {
-    try {
+    try 
+    {
       const character = request.body;
       // check if the character alredy exist
       if (await utils.checkExist("name", character.name, characterModel))

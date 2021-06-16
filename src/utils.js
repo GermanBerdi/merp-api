@@ -30,7 +30,14 @@ async function checkId(id, model)
 
 async function findNumAttackTable(num, table, endurance, model)
 {
-    return await model.findOne ({$and: [{table: table}, {endurance: endurance}, {min: {$lte: num}}, {max: {$gte: num}}] });
+    return await model.findOne ({$and: 
+                                    [{table: table}, 
+                                     {endurance: endurance},
+                                     {min: {$lte: num}},
+                                     {max: {$gte: num}}]
+                                }).populate({
+                                    path: "criticalLevel",
+                                  });
 }
 
 async function findRangeAttackTable(min, max, table, endurance, model)
@@ -48,6 +55,11 @@ async function findRangeCriticalTable(min, max, table, model)
     return await model.findOne({$and: [{table:table}, {min:{$gte:min}}, {max:{$lte:max}}] });
 }
 
+function rollDice(Dice)
+{
+    return Math.floor(Math.random() * (Dice -1)) + 1;
+}
+
 // export constant
 module.exports.condition = condition;
 
@@ -58,3 +70,4 @@ module.exports.findNumAttackTable     = findNumAttackTable;
 module.exports.findRangeAttackTable   = findRangeAttackTable;
 module.exports.findNumCriticalTable   = findNumCriticalTable;
 module.exports.findRangeCriticalTable = findRangeCriticalTable;
+module.exports.rollDice               = rollDice;
