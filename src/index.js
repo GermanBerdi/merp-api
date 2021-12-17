@@ -29,7 +29,8 @@ catch (e)
 routes(app);
 
 // set application listening on port 5000 of localhost
-app.listen(5000, "192.168.10.230", (err, address) => {
+// set application listening on all available IPv4 interfaces
+app.listen(5000, '0.0.0.0', (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
