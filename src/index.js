@@ -15,10 +15,13 @@ const app = fastify();
 // import routes
 const routes = require("./routes/routes");
 
+// checking environment variable MONGODB_IP to obtain IP for de MONGODB server
+const mongodbUrl = "mongodb://" + process.env.MONGODB_IP + ":27017/merpDB";
+
 // connected fastify to mongoose
 try 
 {
-  mongoose.connect("mongodb://localhost:27017/merpDB",{ useNewUrlParser: true });
+  mongoose.connect(mongodbUrl,{ useNewUrlParser: true });
 } 
 catch (e) 
 {
