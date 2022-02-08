@@ -15,28 +15,33 @@ const app = fastify();
 // import routes
 const routes = require("./routes/routes");
 
-// checking environment variable MONGODB_IP to obtain IP for de MONGODB server
-const mongodbUrl = "mongodb://" + process.env.MONGODB_IP + ":27017/merpDB";
+// checking the environment variable mongoDbUrl to obtain access to the mongo database
+const mongoDbUrl = process.env.mongoDbUrl
 
-// connected fastify to mongoose
-try 
-{
-  mongoose.connect(mongodbUrl,{ useNewUrlParser: true });
-} 
-catch (e) 
-{
-  console.error(e);
+if (mongoDbUrl == null) {
+  console.log ("enviroment variable 'mongoDbUrl' is null");
 }
-
-// function initialize
-routes(app);
-
-// set application listening on port 5000 of localhost
-// set application listening on all available IPv4 interfaces
-app.listen(5000, '0.0.0.0', (err, address) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
+else {
+  // connected fastify to mongoose
+  try 
+  {
+    mongoose.connect(mongoDbUrl,{ useNewUrlParser: true });
+  } 
+  catch (e) 
+  {
+    console.error(e);
   }
-  console.log(`Server running on ${address}`);
-});
+
+  // function initialize
+  routes(app);
+
+  // set application listening on port 5000 of localhost
+  // set application listening on all available IPv4 interfaces
+  app.listen(5000, '0.0.0.0', (err, address) => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    console.log(`Server running on ${address}`);
+  })
+};
